@@ -2,17 +2,41 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# =========================
+# Configuración de la página
+# =========================
+
+st.set_page_config(
+    page_title="Sprint 7 - Proyecto Análisis de Datos de Automóviles",
+    page_icon="🚗",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'About': "Experimentando con la documentación de Streamlit para crear una aplicación interactiva de análisis de datos de automóviles."
+    }
+)
+
+# =========================
+# Cargar y tratar los datos
+# =========================
+
 car_data = pd.read_csv('vehicles_us.csv')  # leer los datos
-car_data.head()  # mostrar las primeras filas del DataFrame
 car_filtered = car_data.groupby(['model_year', 'model'])['price'].mean(
 ).reset_index()  # agrupar por modelo y año, y calcular el precio promedio
-car_filtered.head()  # mostrar las primeras filas del DataFrame filtrado
 
-st.header('Car Data Analysis / Proyecto Sprint 7')
+# =========================
+# Título principal
+# =========================
+st.title("🚗 Car Data Analysis — Proyecto Sprint 7")
+st.write("Análisis interactivo del dataset de automóviles americanos.")
+
+
+st.header('Análisis de datos de automóviles americanos. Vista previa del dataset')
+with st.expander("📄 Ver primeras filas del dataset"):
+    st.dataframe(car_data.head())  # mostrar las primeras filas del DataFrame
 
 agree = st.checkbox(
-    "Bienvenido al proyecto de análisis de datos de automóviles! ¿Quieres explorar los datos y visualizarlos?")
-
+    "¿Quieres ver la distribución de transmisiones?")
 if agree:
     st.write("---")
     st.write("Creación de histogramas para el conjunto de datos de automóviles americanos automáticos vs estandar.")
